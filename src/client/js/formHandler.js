@@ -1,15 +1,30 @@
 function handleSubmit(event) {
     event.preventDefault()
 
-    // check what text was put into the form field
+    // Check if url provided is valid
     let formText = document.getElementById('name').value
-    Client.checkForName(formText)
+   if (!Client.validateUrl(formText)) {
+       console.log('URL is not valid');
+       alert("Please provide a valid url!");
+   }
 
     console.log("::: Form Submitted :::")
-    fetch('http://localhost:8082/test')
+    console.log(JSON.stringify(formText))
+    fetch('//localhost:8082/test', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'url': formText})
+    })
     .then(res => res.json())
     .then(function(res) {
-        document.getElementById('results').innerHTML = res.message
+        console.log('res is ' + res.polarity);
+        document.getElementById('polarity').innerHTML = `Polarity: ${res.polarity}`;
+        document.getElementById('subjectivity').innerHTML = `Subjectivity: ${res.subjectivity}`;
+        document.getElementById('polarity-confidence').innerHTML = `Polarity Confidence: ${res.polarity_confidence}`;
+        document.getElementById('subjectivity-confidence').innerHTML = `Subjectivity Confidence: ${res.subjectivity_confidence}`;
     })
 }
 

@@ -23,6 +23,7 @@
 
         <main>
             <section>
+                <h3>Add the url of the article you want to analyse</h3>
                 <form class="" onsubmit="return Client.handleSubmit(event)">
                     <input id="name" type="text" name="input" value="" onblur="onBlur()" placeholder="Name">
                     <input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
@@ -31,7 +32,10 @@
 
             <section>
                 <strong>Form Results:</strong>
-                <div id="results"></div>
+                <div class="results" id="polarity"></div>
+                <div class="results" id="subjectivity"></div>
+                <div class="results" id="polarity-confidence"></div>
+                <div class="results" id="subjectivity-confidence"></div>
             </section>
         </main>
 
