@@ -14,7 +14,6 @@ const aylien = require("aylien_textapi")
 const app = express()
 
 app.use(cors())
-// app.options('*', cors())
 
 app.use(express.static('dist'))
 
@@ -35,26 +34,10 @@ app.get('/', function (req, res) {
     res.sendFile(path.resolve('src/client/views/index.html'))
 })
 
-// designates what port the app will listen to for incoming requests
+// Designates what port the app will listen to for incoming requests
 app.listen(8082, function () {
     console.log('Example app listening on port 8082!')
 })
-
-// textapi.sentiment({
-//     'url': "https://news.sky.com/story/coronavirus-minister-says-wrong-advice-at-start-of-covid-19-outbreak-could-have-led-to-mistakes-11990896"
-// }, function(error, response) {
-//     if (error === null) {
-//         console.log(response);
-//         data = {
-//             polarity: response.polarity.replace(/['"]+/g, ''),
-//             subjectivity: response.subjectivity.replace(/['"]+/g, ''),
-//             polarity_confidence: Math.round((response.polarity_confidence + Number.EPSILON) * 1000) / 1000,
-//             subjectivity_confidence: response.subjectivity_confidence
-//         }
-//         console.log('whaaaaaaaaaaat');
-//         console.log(data);
-//     }
-// });
 
 app.post('/test', function (req, res) {
     let data = {};
@@ -77,3 +60,4 @@ app.post('/test', function (req, res) {
 
 })
 
+module.exports = app;

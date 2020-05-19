@@ -7,17 +7,6 @@ function validateUrl(url) {
         '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
         '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
     return !!pattern.test(url);
-    // let names = [
-    //     "Picard",
-    //     "Janeway",
-    //     "Kirk",
-    //     "Archer",
-    //     "Georgiou"
-    // ]
-
-    // if(names.includes(inputText)) {
-    //     alert("Welcome, Captain!")
-    // }
 }
 
 export { validateUrl }
