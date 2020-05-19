@@ -1,8 +1,7 @@
-# Project Instructions
+# FEDN-Evaluate-News-Articles
 
-This repo is your starter code for the project. It is the same as the starter code we began with in lesson 2. Install and configure Webpack just as we did in the course. Feel free to refer to the course repo as you build this one, and remember to make frequent commits and to create and merge branches as necessary!
-
-The goal of this project is to give you practice with:
+## Overview
+This is the fourth project part of the Front End Developer nanodegree Udacity. The aims of this project are to practice with:
 - Setting up Webpack
 - Sass styles
 - Webpack Loaders and Plugins
@@ -10,99 +9,70 @@ The goal of this project is to give you practice with:
 - Service workers
 - Using APIs and creating requests to external urls
 
-On top of that, I want to introduce you to the topic of Natural Language Processing. NLPs leverage machine learning and deep learning create a program that can interpret natural human speech. Systems like Alexa, Google Assistant, and many voice interaction programs are well known to us, but understanding human speech is an incredibly difficult task and requires a lot of resources to achieve. Full disclosure, this is the Wikipedia definition, but I found it to be a clear one:
+## How to run the project
+Fork and clone the repo. Then run:
+`npm install` - installs the nodes
+`npm run build-dev` - to start a development server
+`npm run build-prod` - to start a production server
+`npm run test` - to run the jest tests
+`npm start` - to start the node server
 
-> Natural language processing (NLP) is a subfield of computer science, information engineering, and artificial intelligence
-concerned with the interactions between computers and human (natural) languages, in particular how to program computers to
-process and analyze large amounts of natural language data.
+The development server will automatically open on `localhost:8080`.
+Once the node server is started, it will run on `localhost:8082`.
 
-You could spend years and get a masters degree focusing on the details of creating NLP systems and algorithms. Typically, NLP programs require far more resources than individuals have access to, but a fairly new API called Aylien has put a public facing API in front of their NLP system. We will use it in this project to determine various attributes of an article or blog post.
+Paste a valid news article url in the input field to test the app. The Aylien API will be called in the background and text analysis will be returned and populated into the html file.
 
-## Getting started
+NOTE: You must register with Aylien and get a valid API_ID and API_KEY to use the app. These must be added to `server/index.js`.
 
-It would probably be good to first get your basic project setup and functioning. Follow the steps from the course up to Lesson 4 but don't add Service Workers just yet. We won't need the service workers during development and having extra caches floating around just means there's more potential for confusion. So, fork this repo and begin your project setup.
+## Requirements
+CRITERIA
+MEETS SPECIFICATIONS
+Architecture
 
-Remember that once you clone, you will still need to install everything:
+Project should have a structure like the one in the lessons. All files shown must be present and the app must successfully render a home page when started via an npm command like ‘npm run start’
 
-`cd` into your new folder and run:
-- `npm install`
+Other requirements:
 
-## Setting up the API
+the Readme file should have non-default text in it that is specific to this project. Doesn’t have to be thorough but should have some basic info. Bonus if correct markdown is used
 
-The Aylien API is perhaps different than what you've used before. It has you install a node module to run certain commands through, it will simplify the requests we need to make from our node/express backend.
+the git ignore file must contain both the node_modules and dist folders at minimum. Other files can be included.
 
-### Step 1: Signup for an API key
-First, you will need to go [here](https://developer.aylien.com/signup). Signing up will get you an API key. Don't worry, at the time of this course, the API is free to use up to 1000 requests per day or 333 intensive requests. It is free to check how many requests you have remaining for the day.
+Configs
 
-### Step 2: Install the SDK
-Next you'll need to get the SDK. SDK stands for Software Development Kit, and SDKs are usually a program that brings together various tools to help you work with a specific technology. SDKs will be available for all the major languages and platforms, for instance the Aylien SDK brings together a bunch of tools and functions that will make it possible to interface with their API from our server and is available for Node, Python, PHP, Go, Ruby and many others. We are going to use the Node one, the page is available [here](https://docs.aylien.com/textapi/sdks/#sdks). You get 1000 free requests per day. 
+Both webpack config files must be present and should be set up similar to the course for development and production.
 
-### Step 3: Require the SDK package
-Install the SDK in your project and then we'll be ready to set up your server/index.js file.
+A build script must run successfully with no errors and generate a dist folder. Bonus if they customized their npm build scripts.
 
-Your server index.js file must have these things:
+Students should also have a working dev mode, check that webpack dev server is set up and that they have an npm script that starts the server
 
-- [ ] Require the Aylien npm package
-```
-var aylien = require("aylien_textapi");
-```
+Content
 
-### Step 4: Environment Variables
-Next we need to declare our API keys, which will look something like this:
-```
-// set aylien API credentias
-var textapi = new aylien({
-  application_id: "your-api-id",
-  application_key: "your-key"
-});
-```
+Only one html file is required, but it must be at src/views/ or src/html. Must contain valid semantic html
 
-...but there's a problem with this. We are about to put our personal API keys into a file, but when we push, this file is going to be available PUBLICLY on Github. Private keys, visible publicly are never a good thing. So, we have to figure out a way to make that not happen. The way we will do that is with environment variables. Environment variables are pretty much like normal variables in that they have a name and hold a value, but these variables only belong to your system and won't be visible when you push to a different environment like Github.
+There will be a minimum of 2 javascript files in the src/js folder. All files in the js folder must be found by webpack.
 
-- [ ] Use npm or yarn to install the dotenv package ```npm install dotenv```. This will allow us to use environment variables we set in a new file
-- [ ] Create a new ```.env``` file in the root of your project
-- [ ] Go to your .gitignore file and add ```.env``` - this will make sure that we don't push our environment variables to Github! If you forget this step, all of the work we did to protect our API keys was pointless.
-- [ ] Fill the .env file with your API keys like this:
-```
-API_ID=**************************
-API_KEY=**************************
-```
-- [ ] Add this code to the very top of your server/index.js file:
-```
-const dotenv = require('dotenv');
-dotenv.config();
-```
-- [ ] Reference variables you created in the .env file by putting ```process.env``` in front of it, an example might look like this:
-```
-console.log(`Your API key is ${process.env.API_KEY}`);
-```
-...Not that you would want to do that. This means that our updated API credential settings will look like this:
-```javascript
-// set aylien API credentials
-// NOTICE that textapi is the name I used, but it is arbitrary. 
-// You could call it aylienapi, nlp, or anything else, 
-//   just make sure to make that change universally!
-var textapi = new aylien({
-  application_id: process.env.API_ID,
-  application_key: process.env.API_KEY
-});
-```
+There must be a styles or scss folder. The project provides a base file, but the header, footer, form, and main files should be added to by the student, similar to the course.
 
-### Step 5: Using the API
+Functionality
 
-We're ready to go! The API has a lot of different endpoints you can take a look at [here](https://docs.aylien.com/textapi/endpoints/#api-endpoints). And you can see how using the SDK simplifies the requests we need to make. 
+CRITERIA
+MEETS SPECIFICATIONS
+API
 
-I won't provide further examples here, as it's up to you to create the various requests and make sure your server is set up appropriately.
+The app should make a successful call to the api on form submission. If this is successful, the api keys and response handling were done correctly. You can check that the api keys are found in server.js or a similar node file. It is not acceptable for an api key to be set in a client facing file (like index.js)
 
-## After the Aylien API
+Information from the api response must show up in the view. It is not enough for the response to be logged to the console or saved in js, etc..
 
-Once you are hooked up to the Aylien API, you are most of the way there! Along with making sure you are following all the requirements in the project rubric in the classroom, here are a few other steps to make sure you take.
+Offline Functionality
 
-- Parse the response body to dynamically fill content on the page.
-- Test that the server and form submission work, making sure to also handle error responses if the user input does not match API requirements. 
-- Go back to the web pack config and add the setup for service workers.  
-- Test that the site is now available even when you stop your local server 
+The project must have set up service workers in webpack.
 
-## Deploying
+Testing
 
-A great step to take with your finished project would be to deploy it! Unfortunately its a bit out of scope for me to explain too much about how to do that here, but checkout [Netlify](https://www.netlify.com/) or [Heroku](https://www.heroku.com/) for some really intuitive free hosting options.
+Check that the project has Jest installed, that there is an npm script to run Jest, and that the tests all pass. Every src/js file should have at least one test.
+
+Interactions
+
+The page built can be very simple, but should include:
+
+A single field form that uses the correct html tags and structure. There should be some attempt to validate the form input. Bonus points if you use regex to correctly check for a URL and give back helpful error messages.
